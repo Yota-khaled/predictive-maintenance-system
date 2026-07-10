@@ -1,0 +1,270 @@
+{
+  "name": "Machine Failure",
+  "nodes": [
+    {
+      "parameters": {
+        "sendTo": "={{$json[\"Email\"]}}",
+        "subject": "=⚠️ Predictive Maintenance Alert – Potential Machine Failure Detected",
+        "emailType": "text",
+        "message": "=Hello,\n\nOur Predictive Maintenance System has detected a potential machine failure.\n\nPrediction Summary\n\nPrediction: {{$json[\"Prediction\"]}}\n\nConfidence: {{ Number($json[\"Confidence\"]).toFixed(2) }}%\n\nProduct Type: {{$json[\"Product Type\"]}}\n\nSensor Readings\n\nAir Temperature: {{ Number($json[\"Air Temp\"]).toFixed(2) }} K\n\nProcess Temperature: {{ Number($json[\"Process Temp\"]).toFixed(2) }} K\n\nRotational Speed: {{ Math.round($json[\"Rotational Speed\"]) }} rpm\n\nTorque: {{ Number($json[\"Torque\"]).toFixed(2) }} Nm\n\nTool Wear: {{ Number($json[\"Tool Wear\"]).toFixed(2) }} min\n\nRecommended Action\n\nThe current sensor readings indicate a high probability of machine failure.\n\nTo minimize the risk of unexpected downtime and costly repairs, we recommend:\n\n• Inspect the machine immediately.\n• Check components affected by excessive tool wear or overheating.\n• Schedule preventive maintenance before resuming operation.\n• Continue monitoring sensor readings closely.\n\nThank you,\n\nPredictive Maintenance System",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -224,
+        -64
+      ],
+      "id": "867edd3d-1b40-4c03-a74f-0f9be73d7285",
+      "name": "Send a message",
+      "webhookId": "26c2a8f8-7319-4e5f-9238-e03a2bd449af",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "Nlluk3gl1QKAc1UV",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "machine-failure",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1184,
+        32
+      ],
+      "id": "ddc018ae-a258-4ca6-b7ee-a277fcbf3fd6",
+      "name": "Webhook",
+      "webhookId": "168fa8dc-bf95-4e63-a92e-c4cf812b352e"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "12pOEQxrkMvLWQhVNk_3PHb7jxW2d03UyhHF8G7pYovo",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Machine Failure Predictions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12pOEQxrkMvLWQhVNk_3PHb7jxW2d03UyhHF8G7pYovo/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp\n": "={{$now}}",
+            "Email": "={{$json.body.email}}",
+            "Air Temp": "={{$json.body.air_temperature}}",
+            "Process Temp": "={{$json.body.process_temperature}}",
+            "Rotational Speed": "={{$json.body.rotational_speed}}",
+            "Torque": "={{$json.body.tool_wear}}",
+            "Tool Wear": "={{$json.body.torque}}",
+            "Prediction": "={{$json.body.prediction}}",
+            "Confidence": "={{$json.body.confidence}}",
+            "Product Type": "={{$json.body.product_type}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp\n",
+              "displayName": "Timestamp\n",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Product Type",
+              "displayName": "Product Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Air Temp",
+              "displayName": "Air Temp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Process Temp",
+              "displayName": "Process Temp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Rotational Speed",
+              "displayName": "Rotational Speed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Torque",
+              "displayName": "Torque",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Tool Wear",
+              "displayName": "Tool Wear",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Prediction",
+              "displayName": "Prediction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Confidence",
+              "displayName": "Confidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -864,
+        32
+      ],
+      "id": "ef7c1a26-d5a5-49b7-b551-6476a2b929e6",
+      "name": "Machine Failure Predictions",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "35vwe1TEQtlmf3XO",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cf2ef865-95d7-444a-b911-bc24817592b0",
+              "leftValue": "={{String($json.Prediction).trim()}}",
+              "rightValue": "Failure",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -560,
+        32
+      ],
+      "id": "f17c7670-2b42-485e-b886-e80f2ac96473",
+      "name": "If"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Machine Failure Predictions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Machine Failure Predictions": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "e4abd7c4-f211-4eb0-81d8-f75fbfff8e6d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "4bcee6f1f3de0f230f03d1413ae167e758123b76540c5647c8a183ad085836e3"
+  },
+  "id": "0azVIzvZGMLnixRo",
+  "tags": []
+}

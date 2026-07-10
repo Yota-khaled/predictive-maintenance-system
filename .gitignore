@@ -1,0 +1,18 @@
+# Demo video (exceeds GitHub 100 MB limit)
+Demo/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.env
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Tableau temp files
+~*.twbr
